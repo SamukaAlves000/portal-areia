@@ -1,5 +1,5 @@
-import { Component, input, ElementRef, inject, AfterViewInit, OnDestroy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ElementRef, inject, AfterViewInit, OnDestroy, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-section',
@@ -28,17 +28,20 @@ export class SectionComponent implements AfterViewInit, OnDestroy {
 
   isVisible = signal(false);
   private elementRef = inject(ElementRef);
+  private platformId = inject(PLATFORM_ID);
   private observer?: IntersectionObserver;
 
   ngAfterViewInit() {
-    this.observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        this.isVisible.set(true);
-        this.observer?.disconnect();
-      }
-    }, { threshold: 0.1 });
+    if (isPlatformBrowser(this.platformId)) {
+      this.observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          this.isVisible.set(true);
+          this.observer?.disconnect();
+        }
+      }, { threshold: 0.1 });
 
-    this.observer.observe(this.elementRef.nativeElement);
+      this.observer.observe(this.elementRef.nativeElement);
+    }
   }
 
   ngOnDestroy() {

@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {RouterOutlet, Router, NavigationEnd} from '@angular/router';
 import {HeaderComponent} from './layout/header';
 import {FooterComponent} from './layout/footer';
 import {filter} from 'rxjs/operators';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,12 +24,15 @@ import {filter} from 'rxjs/operators';
 })
 export class App implements OnInit {
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   ngOnInit() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   }
 }

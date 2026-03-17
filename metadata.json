@@ -1,0 +1,5 @@
+{
+  "name": "AREIA - Associação dos Recebedores de Insumos Agropecuários",
+  "description": "Website institucional da AREIA, promovendo a sustentabilidade e logística reversa de embalagens vazias de defensivos agrícolas em Porto Nacional e Região.",
+  "requestFramePermissions": ["geolocation"]
+}

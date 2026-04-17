@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, signal, ViewChild, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, collectionData, query, orderBy, doc, deleteDoc, addDoc, updateDoc, Timestamp, serverTimestamp } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { collection, query, orderBy, doc, deleteDoc, addDoc, updateDoc, Timestamp, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage, collectionData } from '../../../firebase.config';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -103,8 +104,6 @@ import { GalleryItem } from '../../../models/site.models';
 })
 export class GalleryEditDialogComponent {
   private fb = inject(FormBuilder);
-  private firestore = inject(Firestore);
-  private storage = inject(Storage);
   
   form = this.fb.group({
     imageUrl: ['', Validators.required],
@@ -136,7 +135,7 @@ export class GalleryEditDialogComponent {
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
           const filePath = `portal-areia/galeria/unidade/${Date.now()}_${file.name}`;
-          const storageRef = ref(this.storage, filePath);
+          const storageRef = ref(storage, filePath);
           
           await uploadBytes(storageRef, file);
           const downloadURL = await getDownloadURL(storageRef);
@@ -169,7 +168,7 @@ export class GalleryEditDialogComponent {
           ...this.form.value,
           createdAt: this.data?.createdAt || serverTimestamp()
         };
-        const docRef = doc(this.firestore, `portal-areia/galeria/unidade/${this.data!.id}`);
+        const docRef = doc(db, `portal-areia/galeria/unidade/${this.data!.id}`);
         await updateDoc(docRef, itemData);
         this.dialogRef.close(true);
       } catch (error) {
@@ -180,7 +179,7 @@ export class GalleryEditDialogComponent {
     } else if (!this.isEdit && this.uploadedImages().length > 0) {
       this.loading = true;
       try {
-        const galleryCollection = collection(this.firestore, 'portal-areia/galeria/unidade');
+        const galleryCollection = collection(db, 'portal-areia/galeria/unidade');
         
         // Salvar cada imagem como um novo documento
         for (const img of this.uploadedImages()) {
@@ -302,7 +301,6 @@ export class GalleryEditDialogComponent {
   `]
 })
 export class AdminGaleriaComponent implements OnInit {
-  private firestore = inject(Firestore);
   private dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['image', 'title', 'order', 'actions'];
@@ -317,7 +315,7 @@ export class AdminGaleriaComponent implements OnInit {
   }
 
   loadItems() {
-    const galleryCollection = collection(this.firestore, 'portal-areia/galeria/unidade');
+    const galleryCollection = collection(db, 'portal-areia/galeria/unidade');
     const q = query(galleryCollection, orderBy('order', 'asc'));
     
     (collectionData(q, { idField: 'id' }) as Observable<GalleryItem[]>).subscribe({
@@ -365,7 +363,7 @@ export class AdminGaleriaComponent implements OnInit {
   async deleteItem(item: GalleryItem) {
     if (confirm('Tem certeza que deseja excluir esta foto da galeria?')) {
       try {
-        const docRef = doc(this.firestore, `portal-areia/galeria/unidade/${item.id}`);
+        const docRef = doc(db, `portal-areia/galeria/unidade/${item.id}`);
         await deleteDoc(docRef);
       } catch (error) {
         console.error('Error deleting gallery item:', error);

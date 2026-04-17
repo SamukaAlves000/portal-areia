@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HeroComponent } from '../../shared/components/hero';
@@ -10,12 +10,12 @@ import { SeoService } from '../../services/seo.service';
 import { News, Metric } from '../../models/site.models';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { collection, query, where } from 'firebase/firestore';
+import { db, collectionData } from '../../firebase.config';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule, 
     RouterModule, 
@@ -65,16 +65,22 @@ import { Observable } from 'rxjs';
 
     <!-- Embalômetro Resumo -->
     <app-section title="Embalômetro" subtitle="Acompanhe em tempo real os indicadores de sustentabilidade da nossa região." bgClass="bg-surface">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="flex flex-wrap justify-center gap-6 mb-12">
         @for (metric of metrics(); track metric.label; let i = $index) {
-          <div class="stagger-item" [style.animation-delay]="(i * 100) + 'ms'" [class.visible]="true">
+          <div class="stagger-item w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-[300px]" [style.animation-delay]="(i * 100) + 'ms'" [class.visible]="true">
             <app-metric-card 
               [label]="metric.label" 
               [value]="metric.value" 
               [unit]="metric.unit" 
               [icon]="metric.icon"
+              class="h-full block"
             ></app-metric-card>
           </div>
+        }
+        @if (metrics().length === 0) {
+          @for (i of [1,2,3,4]; track i) {
+            <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-[300px] h-48 bg-white/50 rounded-3xl animate-pulse"></div>
+          }
         }
       </div>
       <div class="text-center mt-16">
@@ -119,9 +125,9 @@ import { Observable } from 'rxjs';
     .stagger-item {
       opacity: 0;
       transform: translateY(20px);
-      animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: fadeIn 0.6s ease-out forwards;
     }
-    @keyframes fadeInUp {
+    @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
@@ -131,8 +137,6 @@ export class HomeComponent implements OnInit {
   private dataService = inject(DataService);
   private seoService = inject(SeoService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-  private firestore = inject(Firestore);
 
   news = signal<News[]>([]);
   metrics = signal<Metric[]>([]);
@@ -141,17 +145,16 @@ export class HomeComponent implements OnInit {
     this.seoService.updateMeta('Home', 'Website institucional da AREIA - Associação dos Recebedores de Insumos Agropecuários.');
     
     // Carregar notícias dinâmicas do Firestore
-    const newsCollection = collection(this.firestore, 'portal-areia/noticias/lista');
+    const newsCollection = collection(db, 'portal-areia/noticias/lista');
     const q = query(newsCollection, where('published', '==', true));
 
-    (collectionData(q, { idField: 'id' }) as Observable<News[]>).subscribe({
+    (collectionData<News>(q, { idField: 'id' })).subscribe({
       next: (data) => {
         // Ordenação manual para evitar erro de índice composto no Firebase
         const sortedData = [...data].sort((a, b) => {
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
         this.news.set(sortedData.slice(0, 3));
-        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error loading news for home:', err);
@@ -160,7 +163,6 @@ export class HomeComponent implements OnInit {
 
     this.dataService.getMetrics().subscribe(data => {
       this.metrics.set(data);
-      this.cdr.markForCheck();
     });
   }
 

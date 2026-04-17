@@ -8,7 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Firestore, collection, addDoc, serverTimestamp } from '@angular/fire/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase.config';
 
 @Component({
   selector: 'app-contato',
@@ -147,7 +148,6 @@ export class ContatoComponent implements OnInit {
   private fb = inject(FormBuilder);
   private seoService = inject(SeoService);
   private snackBar = inject(MatSnackBar);
-  private firestore = inject(Firestore);
 
   loading = signal(false);
   success = signal<boolean | null>(null);
@@ -173,7 +173,7 @@ export class ContatoComponent implements OnInit {
         const ano = now.getFullYear();
         const periodo = `${mes}/${ano}`;
 
-        const contactsCollection = collection(this.firestore, 'portal-areia/fale-conosco/mensagens');
+        const contactsCollection = collection(db, 'portal-areia/fale-conosco/mensagens');
         await addDoc(contactsCollection, {
           ...this.form.value,
           dataEnvio: serverTimestamp(),

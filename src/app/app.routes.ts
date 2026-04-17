@@ -36,6 +36,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/admin/galeria/admin-galeria').then(m => m.AdminGaleriaComponent)
       },
       {
+        path: 'metricas',
+        loadComponent: () => import('./features/admin/metrics/admin-metrics').then(m => m.AdminMetricsComponent)
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'

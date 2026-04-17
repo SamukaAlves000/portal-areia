@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, ViewChild, Inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, collectionData, query, doc, deleteDoc, addDoc, updateDoc, where, getDocs, Timestamp, orderBy } from '@angular/fire/firestore';
+import { collection, query, doc, deleteDoc, addDoc, updateDoc, where, getDocs, Timestamp, orderBy } from 'firebase/firestore';
+import { db, collectionData } from '../../../firebase.config';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -87,7 +88,6 @@ const CITIES = [
 })
 export class ScheduleEditDialogComponent {
   private fb = inject(FormBuilder);
-  private firestore = inject(Firestore);
   
   cities = CITIES;
   form = this.fb.group({
@@ -113,11 +113,11 @@ export class ScheduleEditDialogComponent {
     if (this.form.valid) {
       this.loading = true;
       try {
-        const scheduleCollection = collection(this.firestore, 'portal-areia/agendamentos/configuracoes');
+        const scheduleCollection = collection(db, 'portal-areia/agendamentos/configuracoes');
         const scheduleData = { ...this.form.value };
 
         if (this.isEdit && this.data?.id) {
-          const docRef = doc(this.firestore, `portal-areia/agendamentos/configuracoes/${this.data.id}`);
+          const docRef = doc(db, `portal-areia/agendamentos/configuracoes/${this.data.id}`);
           await updateDoc(docRef, scheduleData);
         } else {
           await addDoc(scheduleCollection, scheduleData);
@@ -204,7 +204,6 @@ export class ScheduleEditDialogComponent {
 export class AppointmentsViewDialogComponent implements OnInit {
   appointments: Appointment[] = [];
   loading = true;
-  private firestore = inject(Firestore);
   private cdr = inject(ChangeDetectorRef);
 
   constructor(
@@ -214,7 +213,7 @@ export class AppointmentsViewDialogComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      const appointmentsCollection = collection(this.firestore, 'portal-areia/agendamentos/lista');
+      const appointmentsCollection = collection(db, 'portal-areia/agendamentos/lista');
       const q = query(appointmentsCollection, where('scheduleId', '==', this.data.id));
       const snapshot = await getDocs(q);
       this.appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Appointment));
@@ -334,7 +333,6 @@ export class AppointmentsViewDialogComponent implements OnInit {
   `]
 })
 export class AdminAgendamentosComponent implements OnInit {
-  private firestore = inject(Firestore);
   private dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['city', 'date', 'available', 'count', 'actions'];
@@ -349,11 +347,11 @@ export class AdminAgendamentosComponent implements OnInit {
   }
 
   loadData() {
-    const configCollection = collection(this.firestore, 'portal-areia/agendamentos/configuracoes');
-    const appointmentsCollection = collection(this.firestore, 'portal-areia/agendamentos/lista');
+    const configCollection = collection(db, 'portal-areia/agendamentos/configuracoes');
+    const appointmentsCollection = collection(db, 'portal-areia/agendamentos/lista');
     
-    const configs$ = collectionData(configCollection, { idField: 'id' }) as Observable<ScheduleDate[]>;
-    const appointments$ = collectionData(appointmentsCollection) as Observable<Appointment[]>;
+    const configs$ = collectionData<ScheduleDate>(configCollection, { idField: 'id' });
+    const appointments$ = collectionData<Appointment>(appointmentsCollection);
 
     combineLatest([configs$, appointments$]).pipe(
       map(([configs, appointments]) => {
@@ -415,7 +413,7 @@ export class AdminAgendamentosComponent implements OnInit {
   async deleteConfig(config: ScheduleDate) {
     if (confirm(`Tem certeza que deseja excluir esta configuração para ${config.city} em ${config.date}?`)) {
       try {
-        const docRef = doc(this.firestore, `portal-areia/agendamentos/configuracoes/${config.id}`);
+        const docRef = doc(db, `portal-areia/agendamentos/configuracoes/${config.id}`);
         await deleteDoc(docRef);
       } catch (error) {
         console.error('Error deleting schedule config:', error);

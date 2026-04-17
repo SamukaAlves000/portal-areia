@@ -51,16 +51,22 @@ import { MetricCardComponent } from '../../shared/components/metric-card';
     </div>
 
     <app-section title="Impacto Consolidado" subtitle="Indicadores acumulados da operação">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div class="flex flex-wrap justify-center gap-6 mb-12">
         @for (metric of metrics(); track metric.label; let i = $index) {
-          <div class="stagger-item" [style.animation-delay]="(i * 100) + 'ms'" [class.visible]="true">
+          <div class="stagger-item w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-[300px]" [style.animation-delay]="(i * 100) + 'ms'" [class.visible]="true">
             <app-metric-card 
               [label]="metric.label" 
               [value]="metric.value" 
               [unit]="metric.unit" 
               [icon]="metric.icon"
+              class="h-full block"
             ></app-metric-card>
           </div>
+        }
+        @if (metrics().length === 0) {
+          @for (i of [1,2,3,4]; track i) {
+            <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-[300px] h-48 bg-gray-100 rounded-3xl animate-pulse"></div>
+          }
         }
       </div>
 

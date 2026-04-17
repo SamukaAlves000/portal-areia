@@ -2,6 +2,8 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
 import { News, Metric, ScheduleDate, ItinerantSchedule, ReceiptValidation, Appointment } from '../models/site.models';
 import { MOCK_NEWS, MOCK_METRICS, MOCK_SCHEDULE_DATES, MOCK_ITINERANT, MOCK_VALIDATIONS } from '../mock-data/site.data';
+import { collection, query, orderBy } from 'firebase/firestore';
+import { db, collectionData } from '../firebase.config';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,9 @@ export class DataService {
   }
 
   getMetrics(): Observable<Metric[]> {
-    return of(MOCK_METRICS).pipe(delay(600));
+    const metricsCollection = collection(db, 'portal-areia/embalometro/metricas');
+    const q = query(metricsCollection, orderBy('order', 'asc'));
+    return collectionData<Metric>(q, { idField: 'id' });
   }
 
   getScheduleDates(): Observable<ScheduleDate[]> {

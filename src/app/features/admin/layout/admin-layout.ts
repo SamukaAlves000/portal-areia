@@ -49,6 +49,10 @@ import { AuthService } from '../../../services/auth.service';
             <mat-icon matListItemIcon class="!text-primary">photo_library</mat-icon>
             <span matListItemTitle class="text-white">Galeria</span>
           </a>
+          <a mat-list-item routerLink="/admin/metricas" routerLinkActive="bg-white/10" class="!px-6 !py-4">
+            <mat-icon matListItemIcon class="!text-primary">analytics</mat-icon>
+            <span matListItemTitle class="text-white">Métricas</span>
+          </a>
         </mat-nav-list>
 
         <div class="absolute bottom-0 w-full p-6 border-t border-white/10">

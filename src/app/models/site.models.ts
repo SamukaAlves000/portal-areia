@@ -9,10 +9,12 @@ export interface News {
 }
 
 export interface Metric {
+  id?: string;
   label: string;
   value: number;
   unit: string;
   icon: string;
+  order?: number;
 }
 
 export interface ScheduleDate {

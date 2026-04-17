@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, signal, ViewChild, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, collectionData, query, orderBy, doc, deleteDoc, addDoc, updateDoc, Timestamp } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { collection, query, orderBy, doc, deleteDoc, addDoc, updateDoc, Timestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage, collectionData } from '../../../firebase.config';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -116,8 +117,6 @@ import { News } from '../../../models/site.models';
 })
 export class NewsEditDialogComponent {
   private fb = inject(FormBuilder);
-  private firestore = inject(Firestore);
-  private storage = inject(Storage);
   
   form = this.fb.group({
     title: ['', Validators.required],
@@ -152,7 +151,7 @@ export class NewsEditDialogComponent {
       this.uploading = true;
       try {
         const filePath = `portal-areia/noticias/${Date.now()}_${file.name}`;
-        const storageRef = ref(this.storage, filePath);
+        const storageRef = ref(storage, filePath);
         
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
@@ -173,11 +172,11 @@ export class NewsEditDialogComponent {
     if (this.form.valid) {
       this.loading = true;
       try {
-        const newsCollection = collection(this.firestore, 'portal-areia/noticias/lista');
+        const newsCollection = collection(db, 'portal-areia/noticias/lista');
         const newsData = { ...this.form.value };
 
         if (this.isEdit && this.data?.id) {
-          const docRef = doc(this.firestore, `portal-areia/noticias/lista/${this.data.id}`);
+          const docRef = doc(db, `portal-areia/noticias/lista/${this.data.id}`);
           await updateDoc(docRef, newsData);
         } else {
           await addDoc(newsCollection, newsData);
@@ -306,7 +305,6 @@ export class NewsEditDialogComponent {
   `]
 })
 export class AdminNoticiasComponent implements OnInit {
-  private firestore = inject(Firestore);
   private dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['image', 'title', 'date', 'published', 'actions'];
@@ -321,7 +319,7 @@ export class AdminNoticiasComponent implements OnInit {
   }
 
   loadNews() {
-    const newsCollection = collection(this.firestore, 'portal-areia/noticias/lista');
+    const newsCollection = collection(db, 'portal-areia/noticias/lista');
     // Removendo orderBy do query do Firestore para evitar erro de índice composto
     // A ordenação será feita no cliente pelo MatSort ou manualmente se necessário
     const q = query(newsCollection);
@@ -377,7 +375,7 @@ export class AdminNoticiasComponent implements OnInit {
   async deleteNews(news: News) {
     if (confirm(`Tem certeza que deseja excluir a notícia "${news.title}"?`)) {
       try {
-        const docRef = doc(this.firestore, `portal-areia/noticias/lista/${news.id}`);
+        const docRef = doc(db, `portal-areia/noticias/lista/${news.id}`);
         await deleteDoc(docRef);
       } catch (error) {
         console.error('Error deleting news:', error);

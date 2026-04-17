@@ -5,7 +5,8 @@ import { SectionComponent } from '../../shared/components/section';
 import { News } from '../../models/site.models';
 import { MatIconModule } from '@angular/material/icon';
 import { SeoService } from '../../services/seo.service';
-import { Firestore, doc, docData } from '@angular/fire/firestore';
+import { doc } from 'firebase/firestore';
+import { db, docData } from '../../firebase.config';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 
@@ -91,7 +92,6 @@ import { Observable } from 'rxjs';
 })
 export class NoticiaDetalheComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private firestore = inject(Firestore);
   private seo = inject(SeoService);
   private sanitizer = inject(DomSanitizer);
 
@@ -110,9 +110,9 @@ export class NoticiaDetalheComponent implements OnInit {
 
   private loadNews(id: string) {
     this.loading.set(true);
-    const docRef = doc(this.firestore, `portal-areia/noticias/lista/${id}`);
+    const docRef = doc(db, `portal-areia/noticias/lista/${id}`);
     
-    (docData(docRef, { idField: 'id' }) as Observable<News>).subscribe({
+    (docData<News>(docRef, { idField: 'id' })).subscribe({
       next: (item) => {
         this.news.set(item);
         if (item) {

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, collectionData, query, orderBy, Timestamp, doc, updateDoc } from '@angular/fire/firestore';
+import { collection, query, orderBy, Timestamp, doc, updateDoc } from 'firebase/firestore';
+import { db, collectionData } from '../../../firebase.config';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -188,7 +189,6 @@ export class ViewMessageDialogComponent {
   `]
 })
 export class AdminContatosComponent implements OnInit {
-  private firestore = inject(Firestore);
   private dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['status', 'name', 'email', 'subject', 'message', 'dataEnvio', 'actions'];
@@ -203,10 +203,10 @@ export class AdminContatosComponent implements OnInit {
   }
 
   loadMessages() {
-    const contactsCollection = collection(this.firestore, 'portal-areia/fale-conosco/mensagens');
+    const contactsCollection = collection(db, 'portal-areia/fale-conosco/mensagens');
     const q = query(contactsCollection, orderBy('dataEnvio', 'desc'));
     
-    (collectionData(q, { idField: 'id' }) as Observable<ContactMessage[]>).subscribe({
+    (collectionData<ContactMessage>(q, { idField: 'id' })).subscribe({
       next: (data) => {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
@@ -230,7 +230,7 @@ export class AdminContatosComponent implements OnInit {
 
     if (!message.read && message.id) {
       try {
-        const docRef = doc(this.firestore, `portal-areia/fale-conosco/mensagens/${message.id}`);
+        const docRef = doc(db, `portal-areia/fale-conosco/mensagens/${message.id}`);
         await updateDoc(docRef, { read: true });
       } catch (error) {
         console.error('Error updating message status:', error);

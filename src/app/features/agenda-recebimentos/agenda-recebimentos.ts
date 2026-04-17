@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Firestore, collection, addDoc, serverTimestamp, collectionData } from '@angular/fire/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db, collectionData } from '../../firebase.config';
 import { Observable } from 'rxjs';
 import { ScheduleDate } from '../../models/site.models';
 
@@ -263,7 +264,6 @@ export class AgendaRecebimentosComponent implements OnInit {
   private fb = inject(FormBuilder);
   private seoService = inject(SeoService);
   private snackBar = inject(MatSnackBar);
-  private firestore = inject(Firestore);
 
   configs = signal<ScheduleDate[]>([]);
   loading = signal(false);
@@ -307,8 +307,8 @@ export class AgendaRecebimentosComponent implements OnInit {
   }
 
   loadConfigs() {
-    const configCollection = collection(this.firestore, 'portal-areia/agendamentos/configuracoes');
-    (collectionData(configCollection, { idField: 'id' }) as Observable<ScheduleDate[]>).subscribe({
+    const configCollection = collection(db, 'portal-areia/agendamentos/configuracoes');
+    (collectionData<ScheduleDate>(configCollection, { idField: 'id' })).subscribe({
       next: (data) => {
         this.configs.set(data);
         this.loadingConfigs.set(false);
@@ -331,7 +331,7 @@ export class AgendaRecebimentosComponent implements OnInit {
         // Encontrar a configuração correspondente para pegar o ID
         const config = this.configs().find(c => c.city === selectedCity && c.date === selectedDate);
 
-        const appointmentsCollection = collection(this.firestore, 'portal-areia/agendamentos/lista');
+        const appointmentsCollection = collection(db, 'portal-areia/agendamentos/lista');
         await addDoc(appointmentsCollection, {
           ...val,
           scheduleId: config?.id || '',

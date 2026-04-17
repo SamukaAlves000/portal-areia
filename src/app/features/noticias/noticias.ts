@@ -5,7 +5,8 @@ import { SeoService } from '../../services/seo.service';
 import { News } from '../../models/site.models';
 import { NewsCardComponent } from '../../shared/components/news-card';
 import { MatIconModule } from '@angular/material/icon';
-import { Firestore, collection, collectionData, query, orderBy, where } from '@angular/fire/firestore';
+import { collection, query, orderBy, where } from 'firebase/firestore';
+import { db, collectionData } from '../../firebase.config';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -236,7 +237,6 @@ import { Observable } from 'rxjs';
   `]
 })
 export class NoticiasComponent implements OnInit {
-  private firestore = inject(Firestore);
   private seoService = inject(SeoService);
 
   news = signal<News[]>([]);
@@ -245,13 +245,13 @@ export class NoticiasComponent implements OnInit {
   ngOnInit() {
     this.seoService.updateMeta('Notícias', 'Fique por dentro das novidades e eventos da AREIA.');
     
-    const newsCollection = collection(this.firestore, 'portal-areia/noticias/lista');
+    const newsCollection = collection(db, 'portal-areia/noticias/lista');
     const q = query(
       newsCollection, 
       where('published', '==', true)
     );
 
-    (collectionData(q, { idField: 'id' }) as Observable<News[]>).subscribe({
+    (collectionData<News>(q, { idField: 'id' })).subscribe({
       next: (data) => {
         // Ordenação manual para evitar erro de índice composto no Firebase
         const sortedData = [...data].sort((a, b) => {

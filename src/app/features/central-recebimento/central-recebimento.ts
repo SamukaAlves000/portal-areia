@@ -4,7 +4,8 @@ import { SectionComponent } from '../../shared/components/section';
 import { SeoService } from '../../services/seo.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Firestore, collection, collectionData, query, orderBy } from '@angular/fire/firestore';
+import { collection, query, orderBy } from 'firebase/firestore';
+import { db, collectionData } from '../../firebase.config';
 import { GalleryItem } from '../../models/site.models';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -214,7 +215,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class CentralRecebimentoComponent implements OnInit {
   private seoService = inject(SeoService);
-  private firestore = inject(Firestore);
   private sanitizer = inject(DomSanitizer);
 
   photos = signal<GalleryItem[]>([]);
@@ -236,10 +236,10 @@ export class CentralRecebimentoComponent implements OnInit {
   }
 
   private loadPhotos() {
-    const galleryCollection = collection(this.firestore, 'portal-areia/galeria/unidade');
+    const galleryCollection = collection(db, 'portal-areia/galeria/unidade');
     const q = query(galleryCollection, orderBy('order', 'asc'));
     
-    (collectionData(q, { idField: 'id' }) as Observable<GalleryItem[]>).subscribe({
+    (collectionData<GalleryItem>(q, { idField: 'id' })).subscribe({
       next: (data) => {
         this.photos.set(data);
         this.loading.set(false);

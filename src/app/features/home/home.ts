@@ -30,11 +30,12 @@ import { Observable } from 'rxjs';
     <app-hero 
       title="Sustentabilidade no Campo"
       subtitle="Associação dos Recebedores de Insumos Agropecuários de Porto Nacional e Região."
-      primaryLabel="Agendar Devolução"
-      secondaryLabel="Conheça a AREIA"
-      (primaryAction)="navigateTo('/agenda-recebimentos')"
-      (secondaryAction)="navigateTo('/associacao')"
+      secondaryLabel="Fale Conosco"
+      primaryLabel="Conheça a AREIA"
+      (primaryAction)="navigateTo('/associacao')"
+      (secondaryAction)="navigateTo('/contato')"
     ></app-hero>
+
 
     <!-- Sobre Resumo -->
     <app-section title="Nossa Atuação" subtitle="Promovemos a destinação correta de embalagens vazias de defensivos agrícolas, protegendo o meio ambiente e a saúde do produtor.">

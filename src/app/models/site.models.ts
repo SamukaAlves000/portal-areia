@@ -5,6 +5,7 @@ export interface News {
   content: string;
   date: string;
   imageUrl: string;
+  published: boolean;
 }
 
 export interface Metric {
@@ -15,10 +16,12 @@ export interface Metric {
 }
 
 export interface ScheduleDate {
+  id?: string;
+  city: string;
   date: string;
   available: boolean;
-  capacity: number;
-  occupied: number;
+  capacity?: number;
+  occupied?: number;
 }
 
 export interface ItinerantSchedule {
@@ -39,11 +42,21 @@ export interface ReceiptValidation {
 }
 
 export interface Appointment {
-  id: string;
+  id?: string;
+  scheduleId?: string;
   name: string;
   document: string;
   phone: string;
   city: string;
   quantity: number;
   date: string;
+  createdAt?: any;
+}
+
+export interface GalleryItem {
+  id: string;
+  imageUrl: string;
+  title?: string;
+  order: number;
+  createdAt: any;
 }

@@ -9,10 +9,22 @@ export class SeoService {
   private meta = inject(Meta);
 
   updateMeta(title: string, description: string) {
-    const fullTitle = `${title} | AREIA - Porto Nacional`;
+    this.generateTags({ title, description });
+  }
+
+  generateTags(config: { title?: string, description?: string, image?: string }) {
+    const fullTitle = config.title ? `${config.title} | AREIA - Porto Nacional` : 'AREIA - Porto Nacional';
     this.title.setTitle(fullTitle);
-    this.meta.updateTag({ name: 'description', content: description });
+
+    if (config.description) {
+      this.meta.updateTag({ name: 'description', content: config.description });
+      this.meta.updateTag({ property: 'og:description', content: config.description });
+    }
+
     this.meta.updateTag({ property: 'og:title', content: fullTitle });
-    this.meta.updateTag({ property: 'og:description', content: description });
+
+    if (config.image) {
+      this.meta.updateTag({ property: 'og:image', content: config.image });
+    }
   }
 }

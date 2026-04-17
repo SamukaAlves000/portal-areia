@@ -78,7 +78,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class HeroComponent {
   title = input.required<string>();
   subtitle = input.required<string>();
-  backgroundImage = input<string>('https://picsum.photos/seed/agro_hero/1920/1080');
+  backgroundImage = input<string>('https://i.ibb.co/4wZ2c1Sz/Gemini-Generated-Image-tszgtttszgtttszg.png');
   primaryLabel = input<string>('Saiba Mais');
   secondaryLabel = input<string>('Contato');
   

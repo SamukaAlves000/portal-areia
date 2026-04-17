@@ -47,7 +47,7 @@ import { MatIconModule } from '@angular/material/icon';
             <ul class="space-y-4 text-sm text-white/70">
               <li><a routerLink="/agenda-recebimentos" class="hover:text-white transition-colors">Agendamento Online</a></li>
               <li><a routerLink="/agenda-itinerante" class="hover:text-white transition-colors">Agenda Itinerante</a></li>
-              <li><a routerLink="/validar-comprovante" class="hover:text-white transition-colors">Validar Comprovante</a></li>
+<!--              <li><a routerLink="/validar-comprovante" class="hover:text-white transition-colors">Validar Comprovante</a></li>-->
               <li><a routerLink="/embalometro" class="hover:text-white transition-colors">Embalômetro</a></li>
               <li><a routerLink="/contato" class="hover:text-white transition-colors">Fale Conosco</a></li>
             </ul>
@@ -59,15 +59,15 @@ import { MatIconModule } from '@angular/material/icon';
             <ul class="space-y-4 text-sm text-white/70">
               <li class="flex gap-3">
                 <mat-icon class="!text-lg text-primary-light">location_on</mat-icon>
-                <span>Rodovia TO-050, KM 12, Silvanópolis - TO</span>
+                <span>Rodovia TO-050, KM 130, Silvanópolis - TO</span>
               </li>
               <li class="flex gap-3">
                 <mat-icon class="!text-lg text-primary-light">phone</mat-icon>
-                <span>(63) 3514-1234</span>
+                <span>(63) 98436-7707</span>
               </li>
               <li class="flex gap-3">
                 <mat-icon class="!text-lg text-primary-light">email</mat-icon>
-                <span>contato&#64;areia.org.br</span>
+                <span class="break-all">central.silvanopolis.agenda&#64;gmail.com</span>
               </li>
             </ul>
           </div>

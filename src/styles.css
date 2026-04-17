@@ -121,3 +121,30 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0) scale(0.98);
 }
 
+/* Typography */
+.prose b, .prose strong {
+  font-weight: 700 !important;
+}
+
+.prose i, .prose em {
+  font-style: italic !important;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: var(--color-primary);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Ensure MatSnackBar is always on top and visible */
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+.success-snackbar {
+  --mdc-snackbar-container-color: #2D6A4F !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  background-color: #2D6A4F !important;
+  color: white !important;
+}
+

@@ -9,7 +9,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
       <div class="container">
         @if (title()) {
           <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ title() }}</h2>
+            <h2 [class]="'text-3xl md:text-5xl font-bold mb-4 tracking-tight ' + (titleClass() || 'text-primary')">{{ title() }}</h2>
             @if (subtitle()) {
               <p class="text-gray-500 max-w-2xl mx-auto text-lg">{{ subtitle() }}</p>
             }
@@ -25,6 +25,7 @@ export class SectionComponent implements AfterViewInit, OnDestroy {
   title = input<string>();
   subtitle = input<string>();
   bgClass = input<string>();
+  titleClass = input<string>();
 
   isVisible = signal(false);
   private elementRef = inject(ElementRef);

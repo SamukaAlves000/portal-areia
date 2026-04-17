@@ -4,26 +4,41 @@ export const MOCK_NEWS: News[] = [
   {
     id: '1',
     title: 'AREIA inicia campanha de recebimento itinerante 2026',
-    summary: 'Ação visa facilitar a devolução de embalagens para pequenos produtores da região de Porto Nacional.',
-    content: 'A AREIA, em parceria com as prefeituras locais, inicia na próxima semana o cronograma de recebimento itinerante...',
+    summary: 'A AREIA iniciou o calendário de recebimentos itinerantes de 2026, ampliando o atendimento aos produtores rurais em diferentes regiões do Tocantins.',
+    content: `A AREIA iniciou oficialmente o calendário de recebimentos itinerantes para o ano de 2026. Esta iniciativa estratégica visa ampliar o alcance do sistema de logística reversa, facilitando para que o produtor rural possa realizar a devolução de suas embalagens vazias de agrotóxicos em locais mais próximos de sua propriedade.
+
+As ações contemplam diversos municípios do Tocantins, focando especialmente naquelas regiões que possuem maior distância da Central de Silvanópolis. Com isso, a AREIA reforça seu compromisso com a sustentabilidade e com o cumprimento da legislação ambiental vigente.
+
+O cronograma completo com datas e locais pode ser consultado na seção de Agenda Itinerante do nosso portal.`,
     date: '2026-03-05',
-    imageUrl: 'https://picsum.photos/seed/agro1/800/600'
+    imageUrl: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=2070&auto=format&fit=crop',
+    published: true
   },
   {
     id: '2',
-    title: 'Recorde de devolução: Embalômetro atinge marca histórica',
-    summary: 'Graças ao engajamento dos produtores, superamos a meta de destinação correta no primeiro trimestre.',
-    content: 'O sistema Campo Limpo na região de Silvanópolis demonstrou uma eficiência sem precedentes...',
+    title: 'Logística reversa avança com maior adesão de produtores',
+    summary: 'A AREIA registra crescimento contínuo no volume de embalagens recebidas.',
+    content: `Os indicadores operacionais da AREIA em 2026 demonstram um avanço significativo na adesão dos produtores à logística reversa. O volume de embalagens recebidas na Central de Silvanópolis e nos pontos itinerantes tem superado as metas projetadas.
+
+Esse crescimento é reflexo direto do trabalho de conscientização realizado em campo e da facilidade proporcionada pelos sistemas digitais de agendamento. "O produtor entende que a devolução correta é, além de uma obrigação legal, um compromisso com o futuro da agricultura", destaca a diretoria da associação.
+
+Com o aumento da adesão, o impacto ambiental positivo é potencializado, retirando toneladas de resíduos que poderiam contaminar o solo e os recursos hídricos.`,
     date: '2026-02-28',
-    imageUrl: 'https://picsum.photos/seed/agro2/800/600'
+    imageUrl: 'https://images.unsplash.com/photo-1530507629858-e4977d30e9e0?q=80&w=2036&auto=format&fit=crop',
+    published: true
   },
   {
     id: '3',
-    title: 'Educação Ambiental nas escolas de Silvanópolis',
-    summary: 'Projeto "Pequeno Guardião do Campo" leva conscientização sobre logística reversa para crianças.',
-    content: 'Mais de 500 alunos participaram das palestras e atividades lúdicas promovidas pela equipe técnica da AREIA...',
+    title: 'Educação ambiental fortalece práticas sustentáveis no campo',
+    summary: 'As ações de educação ambiental promovendo orientação técnica e conscientização.',
+    content: `A educação ambiental é um dos pilares fundamentais da atuação da AREIA. Em parceria com o inpEV (Instituto Nacional de Processamento de Embalagens Vazias), temos intensificado as ações de treinamento para produtores, técnicos e colaboradores do setor.
+
+As palestras e orientações focam em temas cruciais como a tríplice lavagem, o armazenamento seguro na propriedade e os prazos legais para a devolução. "Levar informação técnica de qualidade é a melhor forma de garantir que todo o processo da logística reversa ocorra de forma eficiente e segura", explicam os coordenadores do programa.
+
+Ao longo do ano, novas capacitações serão realizadas em diversos polos agrícolas do Tocantins, reforçando a cultura da sustentabilidade no campo.`,
     date: '2026-02-15',
-    imageUrl: 'https://picsum.photos/seed/agro3/800/600'
+    imageUrl: 'https://images.unsplash.com/photo-1530507629858-e4977d30e9e0?q=80&w=2036&auto=format&fit=crop',
+    published: true
   }
 ];
 
@@ -35,11 +50,11 @@ export const MOCK_METRICS: Metric[] = [
 ];
 
 export const MOCK_SCHEDULE_DATES: ScheduleDate[] = [
-  { date: '2026-03-15', available: true, capacity: 50, occupied: 12 },
-  { date: '2026-03-16', available: true, capacity: 50, occupied: 45 },
-  { date: '2026-03-17', available: false, capacity: 50, occupied: 50 },
-  { date: '2026-03-18', available: true, capacity: 50, occupied: 5 },
-  { date: '2026-03-19', available: true, capacity: 50, occupied: 20 }
+  { date: '2026-03-15', available: true, capacity: 50, occupied: 12, city: 'Porto Nacional' },
+  { date: '2026-03-16', available: true, capacity: 50, occupied: 45, city: 'Porto Nacional' },
+  { date: '2026-03-17', available: false, capacity: 50, occupied: 50, city: 'Palmas' },
+  { date: '2026-03-18', available: true, capacity: 50, occupied: 5, city: 'Silvanópolis' },
+  { date: '2026-03-19', available: true, capacity: 50, occupied: 20, city: 'Silvanópolis' }
 ];
 
 export const MOCK_ITINERANT: ItinerantSchedule[] = [

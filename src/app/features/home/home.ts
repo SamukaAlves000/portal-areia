@@ -10,6 +10,8 @@ import { SeoService } from '../../services/seo.service';
 import { News, Metric } from '../../models/site.models';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -130,6 +132,7 @@ export class HomeComponent implements OnInit {
   private seoService = inject(SeoService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private firestore = inject(Firestore);
 
   news = signal<News[]>([]);
   metrics = signal<Metric[]>([]);
@@ -137,10 +140,24 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.seoService.updateMeta('Home', 'Website institucional da AREIA - Associação dos Recebedores de Insumos Agropecuários.');
     
-    this.dataService.getNews().subscribe(data => {
-      this.news.set(data.slice(0, 3));
-      this.cdr.markForCheck();
+    // Carregar notícias dinâmicas do Firestore
+    const newsCollection = collection(this.firestore, 'portal-areia/noticias/lista');
+    const q = query(newsCollection, where('published', '==', true));
+
+    (collectionData(q, { idField: 'id' }) as Observable<News[]>).subscribe({
+      next: (data) => {
+        // Ordenação manual para evitar erro de índice composto no Firebase
+        const sortedData = [...data].sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+        this.news.set(sortedData.slice(0, 3));
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Error loading news for home:', err);
+      }
     });
+
     this.dataService.getMetrics().subscribe(data => {
       this.metrics.set(data);
       this.cdr.markForCheck();

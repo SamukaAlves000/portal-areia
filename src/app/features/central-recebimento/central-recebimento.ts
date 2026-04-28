@@ -223,7 +223,8 @@ export class CentralRecebimentoComponent implements OnInit, AfterViewInit {
   }
 
   private async initMap(): Promise<void> {
-    const L = await import('leaflet');
+    const leafletModule = await import('leaflet');
+    const L = leafletModule.default || leafletModule;
     
     // Coordenadas aproximadas para Rodovia TO-050, KM 130, Silvanópolis - TO
     const lat = -11.171846;

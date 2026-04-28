@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal, AfterViewInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SectionComponent } from '../../shared/components/section';
 import { SeoService } from '../../services/seo.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,6 @@ import { collection, query, orderBy } from 'firebase/firestore';
 import { db, collectionData } from '../../firebase.config';
 import { GalleryItem } from '../../models/site.models';
 import { Observable } from 'rxjs';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-central-recebimento',
@@ -145,8 +144,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
                 }
               </ul>
             </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl h-[400px]">
-              <img src="https://i.ibb.co/99B6zT8z/Gemini-Generated-Image-tmmjb1tmmjb1tmmj.png" alt="Equipe Técnica" class="w-full h-full object-cover">
+            <div class="rounded-3xl overflow-hidden shadow-xl h-[370px]">
+              <img src="https://i.ibb.co/7dWVvNqR/Chat-GPT-Image-27-de-abr-de-2026-21-41-47.png" alt="Equipe Técnica" class="w-full h-full object-cover">
             </div>
           </div>
         </div>
@@ -199,40 +198,59 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
     <app-section title="Como Chegar">
       <div class="bg-white p-2 rounded-3xl shadow-xl border border-black/5 overflow-hidden h-[500px]">
-        <iframe 
-          [src]="mapUrl" 
-          width="100%" 
-          height="100%" 
-          style="border:0;" 
-          allowfullscreen="" 
-          loading="lazy" 
-          referrerpolicy="no-referrer-when-downgrade"
-          class="rounded-2xl">
-        </iframe>
+        <div id="map" class="w-full h-full rounded-2xl z-0"></div>
       </div>
     </app-section>
   `
 })
-export class CentralRecebimentoComponent implements OnInit {
+export class CentralRecebimentoComponent implements OnInit, AfterViewInit {
   private seoService = inject(SeoService);
-  private sanitizer = inject(DomSanitizer);
+  private platformId = inject(PLATFORM_ID);
 
   photos = signal<GalleryItem[]>([]);
   loading = signal(true);
-  mapUrl!: SafeResourceUrl;
+  private map?: any;
 
   ngOnInit() {
     this.seoService.updateMeta('Central de Recebimento', 'Conheça a estrutura e localização da Central de Silvanópolis.');
     this.loadPhotos();
+  }
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initMap();
+    }
+  }
+
+  private async initMap(): Promise<void> {
+    const L = await import('leaflet');
     
     // Coordenadas aproximadas para Rodovia TO-050, KM 130, Silvanópolis - TO
-    const lat = -7.488569886183061;
-    const lng = -46.1596981278565;
-      encodeURIComponent('Rodovia TO-050, KM 130, Silvanópolis, TO');
-// Usando Embed API sem necessidade de chave (modo Place/Search público)
-    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3184.819616335!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDI3JzI4LjQiUyA0OMKwMDknNTUuNiJX!5e0!3m2!1spt-BR!2sbr!4v1713360000000!5m2!1spt-BR!2sbr`
-    );
+    const lat = -11.171846;
+    const lng = -48.165764;
+
+    this.map = L.map('map', {
+      center: [lat, lng],
+      zoom: 8 // Equivalente aproximado ao zoom regional solicitado anteriormente
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    const icon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    L.marker([lat, lng], { icon }).addTo(this.map)
+      .bindPopup('<b>Central de Recebimento AREIA</b><br>Rodovia TO-050, KM 130, Silvanópolis - TO')
+      .openPopup();
   }
 
   private loadPhotos() {

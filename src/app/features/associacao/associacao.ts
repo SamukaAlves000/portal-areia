@@ -31,7 +31,7 @@ import { RouterLink } from '@angular/router';
           </div>
         </div>
         <div class="rounded-3xl overflow-hidden shadow-2xl">
-          <img src="https://i.ibb.co/Q7gzSKMC/Gemini-Generated-Image-z6f6o6z6f6o6z6f6.png" alt="Equipe AREIA" class="w-full h-full object-cover" referrerpolicy="no-referrer">
+          <img src="https://i.ibb.co/kV2nWYcG/e740da3a-934d-4411-8532-a0056407cb55.png" alt="Equipe AREIA" class="w-full h-full object-cover" referrerpolicy="no-referrer">
         </div>
       </div>
     </app-section>

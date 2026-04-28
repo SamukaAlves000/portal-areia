@@ -37,11 +37,11 @@ import { MatIconModule } from '@angular/material/icon';
         <!-- Pequeno Guardião -->
         <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 group">
           <div class="h-64 overflow-hidden">
-            <img src="https://picsum.photos/seed/edu1/800/600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Pequeno Guardião do Campo" referrerpolicy="no-referrer">
+            <img src="https://i.ibb.co/LXm3FBHB/Gemini-Generated-Image-7xc2gy7xc2gy7xc2.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Pequeno Guardião do Campo" referrerpolicy="no-referrer">
           </div>
           <div class="p-8">
             <h3 class="text-2xl font-bold text-primary mb-2">🌾 Pequeno Guardião do Campo</h3>
-            <span class="text-xs font-bold text-accent uppercase mb-2 block">(Em desenvolvimento)</span>
+              <span class="text-xs font-bold text-accent uppercase mb-2 block">(Em construção)</span>
             <p class="text-gray-600 mb-6 text-sm">Ferramenta complementar ao PEA, voltada aos associados, revendas e distribuidores para auxiliar no cumprimento das exigências legais.</p>
             <ul class="text-gray-600 space-y-2 mb-6 text-sm">
               <li class="flex items-start gap-2"><mat-icon class="text-primary-light text-sm">check_circle</mat-icon> Ações educativas direcionadas a escolas e comunidades locais;</li>
@@ -54,7 +54,7 @@ import { MatIconModule } from '@angular/material/icon';
         <!-- Dia Nacional do Campo Limpo -->
         <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 group">
           <div class="h-64 overflow-hidden">
-            <img src="https://picsum.photos/seed/edu2/800/600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Dia do Campo Limpo" referrerpolicy="no-referrer">
+            <img src="https://i.ibb.co/XrBbLKft/campo-limpo.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Dia do Campo Limpo" referrerpolicy="no-referrer">
           </div>
           <div class="p-8">
             <h3 class="text-2xl font-bold text-primary mb-2">🌍 Dia Nacional do Campo Limpo</h3>
@@ -69,20 +69,32 @@ import { MatIconModule } from '@angular/material/icon';
         </div>
 
         <!-- REGULARE -->
-        <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 group">
-          <div class="h-64 overflow-hidden">
-            <img src="https://picsum.photos/seed/regulare/800/600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Projeto REGULARE" referrerpolicy="no-referrer">
+          <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 group">
+              <div class="h-64 overflow-hidden">
+                  <img src="https://i.ibb.co/7JGMRmgM/dfa5bab4-e3c5-41f6-8feb-bbf8736a8601.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Projeto REGULARE" referrerpolicy="no-referrer">
+              </div>
+              <div class="p-8">
+                  <h3 class="text-2xl font-bold text-primary mb-2">⚖️ Projeto REGULARE</h3>
+                  <p class="text-gray-600 mb-6 text-sm">
+                      Projeto direcionado aos associados revendedores de defensivos agrícolas, sendo também disponibilizado aos produtores rurais como referência normativa e de compliance. Oferece apoio técnico voltado à estruturação do compliance ambiental e regulatório, promovendo boas práticas e maior segurança jurídica e operacional.
+                  </p>
+
+                  <ul class="text-gray-600 space-y-2 mb-6 text-sm">
+                      <li class="flex items-start gap-2">
+                          <mat-icon class="text-primary-light text-sm">check_circle</mat-icon>
+                          Apoio no cumprimento da legislação ambiental;
+                      </li>
+                      <li class="flex items-start gap-2">
+                          <mat-icon class="text-primary-light text-sm">check_circle</mat-icon>
+                          Organização de licenças e documentos obrigatórios;
+                      </li>
+                      <li class="flex items-start gap-2">
+                          <mat-icon class="text-primary-light text-sm">check_circle</mat-icon>
+                          Estruturação de práticas de governança e gestão (ESG);
+                      </li>
+                  </ul>
+              </div>
           </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-primary mb-2">⚖️ Projeto REGULARE</h3>
-            <p class="text-gray-600 mb-6 text-sm">Apoio técnico voltado à estruturação do compliance ambiental e regulatório para maior segurança jurídica e operacional.</p>
-            <ul class="text-gray-600 space-y-2 mb-6 text-sm">
-              <li class="flex items-start gap-2"><mat-icon class="text-primary-light text-sm">check_circle</mat-icon> Apoio no cumprimento da legislação ambiental;</li>
-              <li class="flex items-start gap-2"><mat-icon class="text-primary-light text-sm">check_circle</mat-icon> Organização de licenças e documentos obrigatórios;</li>
-              <li class="flex items-start gap-2"><mat-icon class="text-primary-light text-sm">check_circle</mat-icon> Estruturação de práticas de governança e gestão (ESG);</li>
-            </ul>
-          </div>
-        </div>
       </div>
     </app-section>
 

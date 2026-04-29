@@ -149,6 +149,6 @@ export class AssociacaoComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.seoService.updateMeta('A Associação', 'Conheça a história, missão e valores da AREIA.');
+    this.seoService.updateMeta('A Associação', 'Conheça a história, missão e valores da AREIA.', 'https://i.ibb.co/kV2nWYcG/e740da3a-934d-4411-8532-a0056407cb55.png');
   }
 }

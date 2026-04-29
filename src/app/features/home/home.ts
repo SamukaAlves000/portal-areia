@@ -36,7 +36,6 @@ import { Observable } from 'rxjs';
       (secondaryAction)="navigateTo('/contato')"
     ></app-hero>
 
-
     <!-- Sobre Resumo -->
     <app-section title="Nossa Atuação" subtitle="Promovemos a destinação correta de embalagens vazias de defensivos agrícolas, protegendo o meio ambiente e a saúde do produtor.">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -143,7 +142,7 @@ export class HomeComponent implements OnInit {
   metrics = signal<Metric[]>([]);
 
   ngOnInit() {
-    this.seoService.updateMeta('Home', 'Website institucional da AREIA - Associação dos Recebedores de Insumos Agropecuários.');
+    this.seoService.updateMeta('Home', 'Website institucional da AREIA - Associação dos Recebedores de Insumos Agropecuários.', 'https://i.ibb.co/bMwQ1mhx/Chat-GPT-Image-29-de-abr-de-2026-17-23-56.png');
     
     // Carregar notícias dinâmicas do Firestore
     const newsCollection = collection(db, 'portal-areia/noticias/lista');

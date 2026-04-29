@@ -212,7 +212,7 @@ export class CentralRecebimentoComponent implements OnInit, AfterViewInit {
   private map?: any;
 
   ngOnInit() {
-    this.seoService.updateMeta('Central de Recebimento', 'Conheça a estrutura e localização da Central de Silvanópolis.');
+    this.seoService.updateMeta('Central de Recebimento', 'Conheça a estrutura e localização da Central de Silvanópolis.', 'https://i.ibb.co/bMwQ1mhx/Chat-GPT-Image-29-de-abr-de-2026-17-23-56.png');
     this.loadPhotos();
   }
 
@@ -223,8 +223,7 @@ export class CentralRecebimentoComponent implements OnInit, AfterViewInit {
   }
 
   private async initMap(): Promise<void> {
-    const leafletModule = await import('leaflet');
-    const L = leafletModule.default || leafletModule;
+    const L = await import('leaflet');
     
     // Coordenadas aproximadas para Rodovia TO-050, KM 130, Silvanópolis - TO
     const lat = -11.171846;

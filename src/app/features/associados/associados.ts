@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [CommonModule, SectionComponent, MatIconModule],
   template: `
-    <div class="bg-primary py-20 text-white">
+    <div class="bg-primary pt-32 pb-20 text-white">
       <div class="container">
         <h1 class="text-5xl font-bold mb-4">Associados</h1>
         <p class="text-xl text-white/80 max-w-2xl">Conheça as empresas que compõem a AREIA e reafirmam o compromisso com a sustentabilidade no campo.</p>

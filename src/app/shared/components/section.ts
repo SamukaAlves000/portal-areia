@@ -34,6 +34,12 @@ export class SectionComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
+      // No mobile, define isVisible como true imediatamente se for uma tela pequena
+      if (window.innerWidth < 768) {
+        this.isVisible.set(true);
+        return;
+      }
+
       this.observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           this.isVisible.set(true);

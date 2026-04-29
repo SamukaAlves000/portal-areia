@@ -47,6 +47,10 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'associados',
+    loadComponent: () => import('./features/associados/associados').then(m => m.AssociadosComponent)
+  },
+  {
     path: 'associacao',
     children: [
       {

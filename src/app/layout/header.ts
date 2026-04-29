@@ -236,6 +236,7 @@ export class HeaderComponent {
             label: 'AREIA',
             path: null,
             children: [
+                {label: 'Associados Ativos', path: '/associados'},
                 {label: 'Educação', path: '/educacao-ambiental'},
                 {label: 'Notícias', path: '/noticias'},
                 {label: 'Contato', path: '/contato'},

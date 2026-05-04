@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
               <span class="text-2xl font-display font-bold tracking-tight">AREIA</span>
             </div>
             <p class="text-white/70 text-sm leading-relaxed mb-6">
-              Associação dos Recebedores de Insumos Agropecuários de Porto Nacional e Região. Comprometidos com a sustentabilidade do agronegócio.
+                Associação dos Revendedores de Insumos Agropecuários de Porto Nacional e Região. Comprometidos com a sustentabilidade do agronegócio.
             </p>
             <div class="flex gap-4">
               <a href="https://facebook.com" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">

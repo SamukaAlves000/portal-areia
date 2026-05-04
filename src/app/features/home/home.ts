@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
   template: `
     <app-hero 
       title="Sustentabilidade no Campo"
-      subtitle="Associação dos Recebedores de Insumos Agropecuários de Porto Nacional e Região."
+      subtitle="Associação dos Revendedores de Insumos Agropecuários de Porto Nacional e Região - AREIA."
       secondaryLabel="Fale Conosco"
       primaryLabel="Conheça a AREIA"
       (primaryAction)="navigateTo('/associacao')"
